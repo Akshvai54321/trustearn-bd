@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f5b">
+<title>TrustEarn BD — সৎভাবে আয়</title>
+<style>
+:root{--green:#087f5b;--dark:#064e3b;--bg:#f3f7f5;--card:#fff;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#15231e}
+header{background:linear-gradient(135deg,var(--dark),#0d966b);color:#fff;padding:22px 18px 26px;border-radius:0 0 24px 24px}
+.wrap{max-width:920px;margin:auto;padding:0 14px}header .brand{font-size:23px;font-weight:800;letter-spacing:.2px}header p{margin:5px 0 0;color:#d1fae5;font-size:14px}
+main{padding:18px 0 40px}.notice{background:#fff7df;border:1px solid #f2d48b;color:#76530b;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 4px 18px #0b3b2b0b;border:1px solid #e7eeea}
+.balance{grid-column:1/-1;background:linear-gradient(135deg,#e2f8ed,#fff);border-color:#c7eed9}.label{font-size:13px;color:var(--muted)}.amount{font-size:30px;font-weight:800;color:var(--dark);margin-top:4px}.small{font-size:12px;color:var(--muted);line-height:1.5}
+h2{font-size:18px;margin:0 0 12px}.icon{font-size:23px}.tile h3{font-size:15px;margin:7px 0 3px}.tile p{font-size:12px;color:var(--muted);margin:0;line-height:1.5}
+button{border:0;border-radius:11px;padding:11px 14px;background:var(--green);color:white;font-weight:700;font-size:14px;cursor:pointer}button.secondary{background:#e5f4ed;color:var(--dark)}button:disabled{opacity:.5;cursor:not-allowed}
+input,select{width:100%;padding:11px;border:1px solid #d7e2dc;border-radius:10px;font:inherit;margin:6px 0 10px;background:white}
+.section{margin-top:16px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row input{flex:1;min-width:130px}
+.task{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1ee}.task:last-child{border:0}.task strong{font-size:14px}.task .small{margin-top:3px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.balance{grid-column:span 2}.tile{min-height:130px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand">🌱 TrustEarn BD</div><p>Earn Honestly, Earn Easily — সৎভাবে কাজ, স্বচ্ছ হিসাব</p></div></header>
+<main class="wrap">
+<div class="notice"><b>ডেমো সংস্করণ:</b> এখানে দেখানো পয়েন্ট, ভিডিও ও টাস্ক পরীক্ষামূলক। এগুলো বাস্তব টাকা নয় এবং এখনই বিকাশ/নগদে তোলা যাবে না। বাস্তব আয় চালু করতে যাচাইকৃত স্পনসর/বিজ্ঞাপন, সার্ভার, নিরাপদ লগইন ও পেমেন্ট ব্যবস্থা লাগবে।</div>
+<section class="grid">
+ <div class="card balance"><div class="label">আপনার ডেমো ব্যালেন্স</div><div class="amount"><span id="points">0</span> পয়েন্ট</div><div class="small">১০০ পয়েন্ট = ৳১ (শুধু নমুনা হিসাব; কোনো নগদ মূল্য নেই)</div></div>
+ <div class="card"><div class="icon">👥</div><div class="label">রেফারেল</div><div class="amount" id="refCount">0</div><div class="small">ডেমো রেফারেল গণনা</div></div>
+ <div class="card"><div class="icon">🎬</div><div class="label">সম্পন্ন ভিডিও</div><div class="amount" id="videoCount">0</div><div class="small">ডেমো কার্যক্রম</div></div>
+</section>
+<section class="card section">
+<h2>👤 আপনার অ্যাকাউন্ট</h2>
+<label class="small" for="username">আপনার নাম</label><input id="username" placeholder="নাম লিখুন">
+<button onclick="saveName()">নাম সংরক্ষণ</button>
+<p class="small" id="welcome">এই ডেমোটি একই ডিভাইসে পরীক্ষার জন্য। প্রকৃত অ্যাকাউন্ট তৈরি হয় না।</p>
+</section>
+<section class="card section">
+<h2>🔗 রেফার করে পয়েন্ট</h2>
+<p class="small">আপনার ডেমো কোড: <b id="code">TEBD-DEMO</b></p>
+<div class="row"><input id="refInput" placeholder="বন্ধুর রেফারেল কোড"><button onclick="applyReferral()">কোড জমা</button></div>
+<p class="small" id="refMsg">বাস্তব রেফারেল যাচাইয়ের জন্য সার্ভার-সাইড ট্র্যাকিং প্রয়োজন।</p>
+</section>
+<section class="card section">
+<h2>🎬 ভিডিও দেখুন</h2>
+<p class="small">এটি নমুনা ভিডিও টাস্ক। কোনো বিজ্ঞাপন দেখা বা ক্লিকের জন্য ভুয়া পয়েন্ট দেওয়া হচ্ছে না।</p>
+<div class="task"><div><strong>পরিচিতি ভিডিও টাস্ক</strong><div class="small">ডেমো সম্পন্ন করলে ১০ পয়েন্ট</div></div><button id="videoBtn" onclick="completeVideo()">সম্পন্ন</button></div>
+</section>
+<section class="card section">
+<h2>📋 ছোট কাজ</h2>
+<div class="task"><div><strong>প্রোফাইলের নাম যোগ করুন</strong><div class="small">ডেমো টাস্ক · ৫ পয়েন্ট</div></div><button id="profileTask" onclick="completeProfileTask()">করুন</button></div>
+<div class="task"><div><strong>নিয়মাবলি পড়ুন</strong><div class="small">ডেমো টাস্ক · ৫ পয়েন্ট</div></div><button id="rulesTask" onclick="completeRulesTask()">করুন</button></div>
+</section>
+<section class="card section">
+<h2>💳 উত্তোলন আবেদন (ডেমো)</h2>
+<p class="small">বাস্তব পেমেন্ট চালু নেই। এখানে নম্বর দিলে কোথাও পাঠানো হবে না; তাই আসল আর্থিক তথ্য দেবেন না।</p>
+<select id="method"><option>বিকাশ</option><option>নগদ</option></select>
+<input id="fakeNumber" placeholder="ডেমো নম্বর (আসল নম্বর দেবেন না)">
+<input id="withdrawAmount" type="number" min="100" placeholder="পয়েন্ট (সর্বনিম্ন ১০০)">
+<button class="secondary" onclick="withdraw()">ডেমো আবেদন</button>
+<p class="small" id="withdrawMsg"></p>
+</section>
+<footer>TrustEarn BD · স্বচ্ছতা ও নিরাপত্তা আগে</footer>
+</main>
+<script>
+const state={points:0,refs:0,videos:0,profile:false,rules:false,refUsed:false,name:""};
+const $=id=>document.getElementById(id);
+function render(){ $("points").textContent=state.points; $("refCount").textContent=state.refs; $("videoCount").textContent=state.videos;
+$("videoBtn").disabled=state.videos>0; $("profileTask").disabled=state.profile; $("rulesTask").disabled=state.rules;
+if(state.name){$("welcome").textContent="স্বাগতম, "+state.name+"!";}}
+function saveName(){state.name=$("username").value.trim();if(!state.name){$("welcome").textContent="আগে নাম লিখুন।";return;}render();$("welcome").textContent="স্বাগতম, "+state.name+"! (ডেমো)";}
+function completeVideo(){if(state.videos)return;state.videos=1;state.points+=10;render();}
+function completeProfileTask(){if(state.profile)return;state.profile=true;state.points+=5;render();}
+function completeRulesTask(){if(state.rules)return;state.rules=true;state.points+=5;render();}
+function applyReferral(){let c=$("refInput").value.trim();if(!c){$("refMsg").textContent="রেফারেল কোড লিখুন।";return;}if(state.refUsed){$("refMsg").textContent="এই ডেমোতে একবারই কোড দেওয়া যাবে।";return;}if(c==="TEBD-DEMO"){$("refMsg").textContent="নিজের কোড ব্যবহার করা যাবে না।";return;}state.refUsed=true;state.points+=20;state.refs=1;render();$("refMsg").textContent="ডেমো কোড গ্রহণ করা হয়েছে: ২০ পয়েন্ট (বাস্তব রেফারেল নয়)।";}
+function withdraw(){let n=$("fakeNumber").value.trim(),a=Number($("withdrawAmount").value);if(!n||!a){$("withdrawMsg").textContent="ডেমো নম্বর ও পয়েন্ট পূরণ করুন।";return;}if(a<100){$("withdrawMsg").textContent="কমপক্ষে ১০০ পয়েন্ট লিখুন।";return;}if(a>state.points){$("withdrawMsg").textContent="আপনার ডেমো পয়েন্ট যথেষ্ট নয়।";return;}$("withdrawMsg").textContent="ডেমো আবেদন দেখানো হলো—কোনো টাকা পাঠানো হয়নি।";state.points-=a;render();}
+render();
+</script>
+</body></html>
