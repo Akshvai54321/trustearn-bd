@@ -1,1 +1,97 @@
 
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrustEarn BD Admin</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f1f5f9}
+header{background:#12375b;color:white;padding:20px;text-align:center}
+main{max-width:900px;margin:auto;padding:18px}
+.card{background:white;padding:20px;margin:15px 0;border-radius:12px;box-shadow:0 2px 8px #0001}
+input,button{width:100%;padding:13px;margin:8px 0;border-radius:8px;font-size:16px}
+input{border:1px solid #ccd5e1}
+button{background:#1769aa;color:white;border:0;cursor:pointer}
+button:disabled{opacity:.6}
+.status{color:#64748b;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+<h2>TrustEarn BD</h2>
+<p>Admin Dashboard</p>
+</header>
+<main>
+<div class="card" id="loginCard">
+<h3>Admin Login</h3>
+<input type="email" id="email" placeholder="Admin Email">
+<input type="password" id="password" placeholder="Password">
+<button id="loginBtn">Login</button>
+<p id="message" class="status">প্রথমে Admin Login করুন।</p>
+</div>
+<div class="card" id="dashboard" hidden>
+<h3>Admin Dashboard</h3>
+<p>আপনি Admin হিসেবে লগইন করেছেন।</p>
+<button id="logoutBtn">Logout</button>
+</div>
+</main>
+<script type="module">
+import {createClient} from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL="YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY="YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+const supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+const message=document.getElementById("message");
+const loginBtn=document.getElementById("loginBtn");
+
+loginBtn.addEventListener("click",async()=>{
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+
+if(!email||!password){
+message.textContent="ইমেইল ও পাসওয়ার্ড দিন।";
+return;
+}
+
+loginBtn.disabled=true;
+message.textContent="লগইন হচ্ছে...";
+
+try{
+const {error}=await supabase.auth.signInWithPassword({email,password});
+if(error)throw error;
+
+const {data:isAdmin,error:adminError}=await supabase.rpc("is_admin");
+if(adminError)throw adminError;
+
+if(isAdmin!==true){
+await supabase.auth.signOut();
+throw new Error("আপনার Admin অনুমতি নেই।");
+}
+
+document.getElementById("loginCard").hidden=true;
+document.getElementById("dashboard").hidden=false;
+
+}catch(error){
+message.textContent="Login Error: "+error.message;
+await supabase.auth.signOut();
+}finally{
+loginBtn.disabled=false;
+}
+});
+
+document.getElementById("logoutBtn").addEventListener("click",async()=>{
+await supabase.auth.signOut();
+document.getElementById("dashboard").hidden=true;
+document.getElementById("loginCard").hidden=false;
+document.getElementById("password").value="";
+message.textContent="আবার Admin Login করুন।";
+});
+</script>
+</body>
+</html>
