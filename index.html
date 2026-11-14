@@ -63,8 +63,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 <p class="small" id="withdrawMsg"></p>
 </section>
 <footer>TrustEarn BD · স্বচ্ছতা ও নিরাপত্তা আগে</footer>
-</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://ftbgxzvdbyesiyiwvkhi.supabase.co";
+ const SUPABASE_ANON_KEY = "sb_publishable_5nBMkJkFltGf6aovI-lofQ_GYBNxscr
 const state={points:0,refs:0,videos:0,profile:false,rules:false,refUsed:false,name:""};
 const $=id=>document.getElementById(id);
 function render(){ $("points").textContent=state.points; $("refCount").textContent=state.refs; $("videoCount").textContent=state.videos;
